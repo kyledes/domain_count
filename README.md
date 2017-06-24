@@ -15,6 +15,6 @@ useful data.
 Non-unicode data is logged and skipped. Any valid data on the same line as non-unicode
 data will be lost.  Python is handling the non-ascii character set email address. I attempted to
 isolate the binary data from the email address in the test by reading one byte at a time.
-I doing so I thought I would lose the ability to parse non-ascii characters (larger than
+In doing so I thought, I would lose the ability to parse non-ascii characters (larger than
  a single byte).  Sadly, that means nightclubHades.org is skipped.
 
