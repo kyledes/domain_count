@@ -6,7 +6,7 @@ from EmailAddress import EmailAddress
 
 
 def collect_args():
-    parser = argparse.ArgumentParser(description="Count Domains in File")
+    parser = argparse.ArgumentParser(description="Count unique domains in a file of email addresses")
     parser.add_argument('--filename', dest='filename', required=True, type=str, help='The name of the data file')
     args = parser.parse_args()
     return args.filename

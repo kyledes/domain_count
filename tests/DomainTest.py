@@ -3,25 +3,28 @@ from Domains import Domains
 from EmailAddress import EmailAddress
 import domain_count
 
+
 class DomainTest(unittest.TestCase):
+
     def test_greek(self):
         """
         test parsing of non-english strings
         :return: 
         """
-        domains = []
+        emails_list = []
         with open('nonEnglish.txt', 'r') as emails:
             for line in emails:
-                parsed_line = domain_count.parse_line(line)
+                email = EmailAddress(line)
 
-                domains.append(parsed_line)
+                emails_list.append(email)
 
-        self.assertEquals(domains[0], 'puddlinggloomy.biz')
-        self.assertEquals(domains[1], 'emceesoppresses.co.uk')
-        self.assertEquals(domains[2], 'φίλος.ΔΔΔ')
-        self.assertEquals(domains[3], 'bystandersboogieing.biz')
-        self.assertEquals(domains[4], 'mumsuncharacteristic.net')
+        self.assertEquals(emails_list[0].domain, 'puddlinggloomy.biz')
+        self.assertEquals(emails_list[1].domain, 'emceesoppresses.co.uk')
+        self.assertEquals(emails_list[2].domain, 'φίλος.ΔΔΔ')
+        self.assertEquals(emails_list[3].domain, 'bystandersboogieing.biz')
+        self.assertEquals(emails_list[4].domain, 'mumsuncharacteristic.net')
 
+    @unittest.skip("testing binary processing")
     def test_binary(self):
         """
         test parsing of binary data
@@ -50,12 +53,8 @@ class DomainTest(unittest.TestCase):
 
                 byte = emails.read(1)
 
-
             for domain in domains:
                 print(domain)
-
-    def test_non_email(self):
-        parsed = domain_count.parse_line('asdf.asdf')
 
     def test_email_regex(self):
         email = EmailAddress('asdf.asdf@asdf.com')
@@ -66,3 +65,24 @@ class DomainTest(unittest.TestCase):
 
         email = EmailAddress('هتاف للترحيب@φίλος.ΔΔΔ')
         self.assertTrue(email.is_email())
+
+        email = EmailAddress('Fred\ Bloggs@example.com')
+        self.assertTrue(email.is_email())
+
+        email = EmailAddress('"Fred Bloggs"@example.com')
+        self.assertTrue(email.is_email())
+
+        email = EmailAddress('name+tag@example.com')
+        self.assertTrue(email.is_email())
+
+        email = EmailAddress('_somename@example.com')
+        self.assertTrue(email.is_email())
+
+    def test_non_english_parse(self):
+        email = EmailAddress('чебурашка@ящик-с-апельсинами.рф')
+        self.assertTrue(email.is_email())
+        self.assertEquals(email.domain, 'ящик-с-апельсинами.рф')
+
+        email = EmailAddress('我買@屋企.香港')
+        self.assertTrue(email.is_email())
+        self.assertEquals(email.domain, '屋企.香港')
