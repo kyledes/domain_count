@@ -47,6 +47,7 @@ class DomainTest(unittest.TestCase):
 
                 except UnicodeDecodeError as e:
                     print("Non unicode data: {}".format(byte))
+
                 byte = emails.read(1)
 
 
@@ -62,3 +63,6 @@ class DomainTest(unittest.TestCase):
 
         email = EmailAddress('asdf.asdf')
         self.assertFalse(email.is_email())
+
+        email = EmailAddress('هتاف للترحيب@φίλος.ΔΔΔ')
+        self.assertTrue(email.is_email())

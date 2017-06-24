@@ -1,6 +1,8 @@
+#!/bin/python
 import logging
 import argparse
 from Domains import Domains
+from EmailAddress import EmailAddress
 
 
 def collect_args():
@@ -11,36 +13,20 @@ def collect_args():
 
 
 def process(filename):
-    domain_results = Domains(filename)
-    with open(filename, 'r') as domains:
+    domain_results = Domains()
+    with open(filename, 'r') as emails:
         try:
-            for line in domains:
-                parsed = parse_line(line)
-                domain_results.add_domain(parsed)
+            for line in emails:
+                email = EmailAddress(line)
+                domain_results.add_domain(email)
         except UnicodeDecodeError as e:
             logging.warning("File: {} non-unicode characters {}".format(filename, e))
 
     return domain_results
 
 
-def parse_line(line):
-    """
-    parse a line from the file into a valid email address
-    :param line: 
-    :return: 
-    """
-    try:
-        '[^@]+@[^@]+\.[^@]+'
-        local_part, domain = line.split('@')
-    except ValueError as e:
-        logging.warning('error parsing email address: {}'.format(e))
-        domain = line
-
-    return domain.strip()
-
-
 def init_logging():
-    logging.basicConfig(filename='domain_count.log',format='%(asctime)s %(message)s', level=logging.INFO)
+    logging.basicConfig(filename='domain_count.log', format='%(asctime)s %(message)s', level=logging.INFO)
 
 
 def main():
@@ -48,7 +34,7 @@ def main():
     filename = collect_args()
     domain_results = process(filename)
     domain_results.print_results()
-    domain_results.write_file()
+    domain_results.write_file(filename)
 
 
 if __name__ == "__main__":
