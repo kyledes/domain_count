@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python3
 import logging
 import argparse
 from argparse import RawTextHelpFormatter
@@ -44,6 +44,8 @@ def process(filename):
                 domain_results.add_domain(email)
         except UnicodeDecodeError as e:
             logging.warning("File: {} non-unicode characters {}".format(filename, e))
+        except Exception as e:
+            logging.error(e)
 
     return domain_results
 

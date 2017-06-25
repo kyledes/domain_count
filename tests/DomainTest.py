@@ -12,7 +12,7 @@ class DomainTest(unittest.TestCase):
         :return: 
         """
         emails_list = []
-        with open('nonEnglish.txt', 'r') as emails:
+        with open('text/nonEnglish.txt', 'r') as emails:
             for line in emails:
                 email = EmailAddress(line)
                 emails_list.append(email)
@@ -101,7 +101,7 @@ class DomainTest(unittest.TestCase):
         email = EmailAddress('_somename@example.com')
         self.assertTrue(email.is_email())
 
-    def test_non_english_parse(self):
+    def test_non_english_parse_test(self):
         email = EmailAddress('чебурашка@ящик-с-апельсинами.рф')
         self.assertTrue(email.is_email())
         self.assertEquals(email.domain, 'ящик-с-апельсинами.рф')
@@ -114,7 +114,6 @@ class DomainTest(unittest.TestCase):
         b = bytes.fromhex('D9 87 D8 AA D8 A7 D9 81 20 D9 84 D9 84 D8 AA D8 B1 D8 AD D9 '
                           '8A D8 A8 40 CF 86 CE AF CE BB CE BF CF 82 2E CE 94 CE 94 CE 94')
         email = b.decode('utf-8')
-        print(email)
         self.assertEquals(email, 'هتاف للترحيب@φίλος.ΔΔΔ')
 
     def list_test(self, answer, test, expected):
@@ -138,19 +137,19 @@ class DomainTest(unittest.TestCase):
 
         self.assertTrue(len(missing_domains) == expected)
 
-    def easy_list_test(self):
+    def test_easy_list(self):
         self.list_test('text/easylistAnswer.txt','text/easylist.txt', 0)
 
-    def medium_list_test(self):
+    def test_medium_list(self):
         self.list_test('text/mediumlistAnswer.txt','text/mediumlist.txt', 12)
 
-    def hard_list_test(self):
+    def test_hard_list(self):
         self.list_test('text/hardlistAnswer.txt','text/hardlist.txt', 12)
 
-    def hardest_list_test(self):
+    def test_hardest_list(self):
         self.list_test('text/hardestlistAnswer.txt','text/hardestlist.txt', 1)
 
-    def frequency_test(self):
+    def test_frequency(self):
         results = domain_count.process('text/hardlist.txt')
         randkey = random.choice(list(results.valid_domains))
         frequency = results.valid_domains[randkey]
@@ -158,6 +157,6 @@ class DomainTest(unittest.TestCase):
         emails = open('text/hardlist.txt', 'r').read()
         self.assertEquals(emails.count(randkey), frequency)
 
-    def repeat_freq_test(self):
-        for i in range(0, 1000):
-            self.frequency_test()
+    def test_repeat_freq(self):
+        for i in range(0, 100):
+            self.test_frequency()
