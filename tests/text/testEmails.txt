@@ -1,0 +1,17 @@
+me@example.com
+a.nonymous@example.com
+name+tag@example.com
+a.name+tag@example.com
+me.example@com
+"spaces must be quoted"@example.com
+me@
+@example.com
+me.@example.com
+.me@example.com
+me@example..com
+me\@example.com
+spaces\ must\ be\ within\ quotes\ even\ when\ escaped@example.com
+a\@mustbeinquotes@example.com
+!#$%&'*+-/=.?^_`{|}~@[1.0.0.127]
+!#$%&'*+-/=.?^_`{|}~@[IPv6:0123:4567:89AB:CDEF:0123:4567:89AB:CDEF]
+me(this is a comment)@example.com

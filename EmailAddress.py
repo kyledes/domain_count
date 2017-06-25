@@ -2,6 +2,9 @@ import re
 
 
 class EmailAddress:
+    """
+    Email Address class contains the parts of the email address and the validation regex
+    """
 
     EMAIL_REGEX = '[^@]+@[^@]+\.[^@]+'
 
